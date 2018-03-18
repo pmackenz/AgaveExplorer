@@ -35,6 +35,7 @@
 
 #include "agavesetupdriver.h"
 
+#include "../AgaveExplorer/ae_globals.h"
 #include "../AgaveExplorer/utilFuncs/authform.h"
 #include "../AgaveExplorer/remoteFileOps/fileoperator.h"
 #include "../AgaveExplorer/remoteFileOps/joboperator.h"
@@ -43,15 +44,18 @@
 
 AgaveSetupDriver::AgaveSetupDriver(QObject *parent, bool debug) : QObject(parent)
 {
+    ae_globals::set_Driver(this);
     debugMode = debug;
 }
 
 AgaveSetupDriver::~AgaveSetupDriver()
 {
-    if (theConnector != NULL) theConnector->deleteLater();
-    if (authWindow != NULL) authWindow->deleteLater();
-    if (myJobHandle != NULL) myJobHandle->deleteLater();
-    if (myFileHandle != NULL) myFileHandle->deleteLater();
+    if (authWindow != NULL) delete authWindow;
+
+    if (myJobHandle != NULL) delete myJobHandle;
+    if (myFileHandle != NULL) delete myFileHandle;
+
+    if (theConnector != NULL) delete theConnector;
 }
 
 RemoteDataInterface * AgaveSetupDriver::getDataConnection()
@@ -84,13 +88,7 @@ void AgaveSetupDriver::getAuthReply(RequestState authReply)
 
 void AgaveSetupDriver::fatalInterfaceError(QString errText)
 {
-    QMessageBox errorMessage;
-    errorMessage.setText(errText);
-    errorMessage.setStandardButtons(QMessageBox::Close);
-    errorMessage.setDefaultButton(QMessageBox::Close);
-    errorMessage.setIcon(QMessageBox::Critical);
-    errorMessage.exec();
-    QCoreApplication::instance()->exit(-1);
+    ae_globals::displayFatalPopup(errText);
 }
 
 void AgaveSetupDriver::subWindowHidden(bool nowVisible)

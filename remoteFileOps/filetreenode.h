@@ -74,6 +74,7 @@ public:
     FileTreeNode * getNodeWithName(QString filename);
     FileTreeNode * getClosestNodeWithName(QString filename);
     FileTreeNode * getParentNode();
+    FileTreeNode * getNodeReletiveToNodeWithName(QString searchPath);
 
     void deleteFolderContentsData();
     void setFileBuffer(QByteArray * newFileBuffer);
@@ -91,18 +92,19 @@ public:
     bool isFile();
 
 signals:
-    void fileDataChanged();
+    void fileDataChanged(FileTreeNode * changedFile);
 
 public slots:
     void deliverLSdata(RequestState taskState, QList<FileMetaData>* dataList);
     void deliverBuffData(RequestState taskState, QByteArray * bufferData);
 
 private slots:
-    void underlyingFilesChanged();
+    void underlyingFilesChanged(FileTreeNode * changedFile);
 
 private:
     void getModelLink();
     FileTreeNode * pathSearchHelper(QString filename, bool stopEarly);
+    FileTreeNode * pathSearchHelperFromAnyNode(QStringList filename, bool stopEarly);
 
     bool verifyControlNode(QList<FileMetaData> * newDataList);
     QString getControlAddress(QList<FileMetaData> * newDataList);

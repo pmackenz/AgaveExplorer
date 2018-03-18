@@ -1,7 +1,7 @@
 /*********************************************************************************
 **
-** Copyright (c) 2017 The University of Notre Dame
-** Copyright (c) 2017 The Regents of the University of California
+** Copyright (c) 2018 The University of Notre Dame
+** Copyright (c) 2018 The Regents of the University of California
 **
 ** Redistribution and use in source and binary forms, with or without modification,
 ** are permitted provided that the following conditions are met:
@@ -33,39 +33,41 @@
 // Contributors:
 // Written by Peter Sempolinski, for the Natural Hazard Modeling Laboratory, director: Ahsan Kareem, at Notre Dame
 
-#ifndef AUTHFORM_H
-#define AUTHFORM_H
+#ifndef AE_GLOBALS_H
+#define AE_GLOBALS_H
 
-#include <QMainWindow>
+#include <QString>
+#include <QMessageBox>
+#include <QCoreApplication>
 
-enum class RequestState;
 class AgaveSetupDriver;
 class RemoteDataInterface;
+class FileOperator;
+class JobOperator;
 
-namespace Ui {
-class AuthForm;
-}
-
-class AuthForm : public QMainWindow
+class ae_globals
 {
-    Q_OBJECT
-
 public:
-    explicit AuthForm(AgaveSetupDriver * theDriver, QWidget *parent = 0);
-    ~AuthForm();
+    ae_globals();
 
-private slots:
-    void performAuth();
-    void exitAuth();
-    void getCopyingInfo();
-    void getAuthReply(RequestState authReply);
+    static void displayFatalPopup(QString message, QString header);
+    static void displayFatalPopup(QString message);
 
-private:
-    Ui::AuthForm *ui;
-    RemoteDataInterface * theConnection;
-    AgaveSetupDriver * myDriver;
+    static void displayPopup(QString message, QString header);
+    static void displayPopup(QString message);
 
-    bool authInProgress = false;
+    static bool isValidFolderName(QString folderName);
+    static bool isValidLocalFolder(QString folderName);
+
+    static AgaveSetupDriver * get_Driver();
+    static void set_Driver(AgaveSetupDriver * newDriver);
+
+    static RemoteDataInterface * get_connection();
+    static JobOperator * get_job_handle();
+    static FileOperator * get_file_handle();
+
+private:    
+    static AgaveSetupDriver * theDriver;
 };
 
-#endif // AUTHFORM_H
+#endif // AE_GLOBALS_H

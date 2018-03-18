@@ -59,7 +59,7 @@ class FileOperator : public QObject
     Q_OBJECT
 
 public:
-    FileOperator(RemoteDataInterface * newDataLink, AgaveSetupDriver * parent);
+    FileOperator(AgaveSetupDriver * parent);
     ~FileOperator();
     void linkToFileTree(RemoteFileTree * newTreeLink);
 
@@ -105,7 +105,7 @@ public:
 
 signals:
     void fileOpDone(RequestState opState);
-    void fileSystemChange();
+    void fileSystemChange(FileTreeNode * changedFile);
     bool recursiveProcessFinished(bool success, QString message);
 
 private slots:
@@ -122,7 +122,7 @@ private slots:
     void getCompressReply(RequestState finalState, QJsonDocument * rawData);
     void getDecompressReply(RequestState finalState, QJsonDocument * rawData);
 
-    void fileNodesChange();
+    void fileNodesChange(FileTreeNode * changedFile);
 
     void getRecursiveUploadReply(RequestState replyState, FileMetaData * newFileData);
     void getRecursiveMkdirReply(RequestState replyState, FileMetaData * newFolderData);
@@ -141,8 +141,6 @@ private:
     bool sendRecursiveCreateFolderReq(FileTreeNode * selectedNode, QString newName);
     bool sendRecursiveUploadReq(FileTreeNode * uploadTarget, QString localFile);
 
-    AgaveSetupDriver * myParent;
-    RemoteDataInterface * dataLink;
     FileTreeNode * rootFileNode = NULL;
     QStandardItemModel dataStore;
 
