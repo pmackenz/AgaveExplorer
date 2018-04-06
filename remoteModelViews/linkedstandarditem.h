@@ -1,7 +1,7 @@
 /*********************************************************************************
 **
-** Copyright (c) 2017 The University of Notre Dame
-** Copyright (c) 2017 The Regents of the University of California
+** Copyright (c) 2018 The University of Notre Dame
+** Copyright (c) 2018 The Regents of the University of California
 **
 ** Redistribution and use in source and binary forms, with or without modification,
 ** are permitted provided that the following conditions are met:
@@ -33,45 +33,21 @@
 // Contributors:
 // Written by Peter Sempolinski, for the Natural Hazard Modeling Laboratory, director: Ahsan Kareem, at Notre Dame
 
-#ifndef REMOTEFILEWINDOW_H
-#define REMOTEFILEWINDOW_H
+#ifndef LINKEDSTANDARDITEM_H
+#define LINKEDSTANDARDITEM_H
 
-#include <QTreeView>
+#include <QStandardItem>
 
-//NOTE: FILENAME MUST == 0 for these functions to work.
-//The other columns can be changed
-enum class FileColumn : int {FILENAME = 0,
-                             TYPE = 1,
-                             SIZE = 2,
-                             LAST_CHANGED = 3,
-                             FORMAT = 4,
-                             MIME_TYPE = 5,
-                             PERMISSIONS = 6};
-
-class FileMetaData;
-class FileTreeNode;
-class FileOperator;
-enum class RequestState;
-
-class RemoteFileTree : public QTreeView
+class LinkedStandardItem : public QStandardItem
 {
-    Q_OBJECT
-
 public:
-    explicit RemoteFileTree(QWidget *parent = 0);
+    LinkedStandardItem(QObject * linkedObject);
+    LinkedStandardItem(QObject * linkedObject, QString text);
 
-    FileTreeNode * getSelectedNode();
-    void setupFileView();
+    QObject * getLinkedObject();
 
-signals:
-    void newFileSelected(FileTreeNode * newFileData);
-
-public slots:
-    void fileEntryTouched(QModelIndex itemTouched);
-    void forceSelectionRefresh();
-
-private slots:
-    void folderExpanded(QModelIndex itemOpened);
+private:
+    QObject * myLinkedObject;
 };
 
-#endif // REMOTEFILEWINDOW_H
+#endif // LINKEDSTANDARDITEM_H

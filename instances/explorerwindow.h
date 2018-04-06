@@ -41,6 +41,9 @@
 #include <QLineEdit>
 #include <QMenu>
 
+#include "../AgaveExplorer/remoteFileOps/filenoderef.h"
+#include "../AgaveExplorer/remoteModelViews/remotefilemodel.h"
+
 class RemoteFileTree;
 class FileMetaData;
 class FileTreeNode;
@@ -59,7 +62,7 @@ class ExplorerWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit ExplorerWindow(ExplorerDriver * theDriver, QWidget *parent = 0);
+    explicit ExplorerWindow(QWidget *parent = 0);
     ~ExplorerWindow();
 
     void startAndShow();
@@ -93,16 +96,11 @@ private slots:
 
     void jobRightClickMenu(QPoint);
 
-    void recursiveProcessPopup(bool success, QString message);
-
 private:
     Ui::ExplorerWindow *ui;
 
-    FileTreeNode * targetNode;
-    ExplorerDriver * programDriver;
-
-    FileOperator * theFileOperator;
-    RemoteDataInterface * dataLink;
+    FileNodeRef targetNode;
+    RemoteFileModel theFileModel;
 
     QStandardItemModel taskListModel;
     QString selectedAgaveApp;

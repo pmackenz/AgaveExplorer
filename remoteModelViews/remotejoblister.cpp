@@ -33,52 +33,13 @@
 // Contributors:
 // Written by Peter Sempolinski, for the Natural Hazard Modeling Laboratory, director: Ahsan Kareem, at Notre Dame
 
-#ifndef JOBOPERATOR_H
-#define JOBOPERATOR_H
+#include "remotejoblister.h"
 
-#include <QObject>
-#include <QMap>
-#include <QStandardItemModel>
-#include <QTimer>
+#include "../ae_globals.h"
+#include "../utilFuncs/agavesetupdriver.h"
+#include "../remoteFileOps/joboperator.h"
 
-class RemoteFileWindow;
-class RemoteDataInterface;
-class RemoteJobLister;
-class RemoteJobData;
-class JobListNode;
-class RemoteDataReply;
-
-enum class RequestState;
-
-class JobOperator : public QObject
+RemoteJobLister::RemoteJobLister(QWidget *parent) : QTableView(parent)
 {
-    Q_OBJECT
-public:
-    explicit JobOperator(QObject * parent);
-    ~JobOperator();
-    void linkToJobLister(RemoteJobLister * newLister);
-
-    QMap<QString, const RemoteJobData *> getJobsList();
-
-    void requestJobDetails(const RemoteJobData *toFetch);
-    void underlyingJobChanged();
-
-    const RemoteJobData * findJobByID(QString idToFind);
-
-signals:
-    void newJobData();
-
-public slots:
-    void demandJobDataRefresh();
-
-private slots:
-    void refreshRunningJobList(RequestState replyState, QList<RemoteJobData> *theData);
-
-private:
-    QMap<QString, JobListNode *> jobData;
-    RemoteDataReply * currentJobReply = NULL;
-
-    QStandardItemModel theJobList;
-};
-
-#endif // JOBOPERATOR_H
+    ae_globals::get_job_handle()->linkToJobLister(this);
+}

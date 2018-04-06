@@ -33,13 +33,49 @@
 // Contributors:
 // Written by Peter Sempolinski, for the Natural Hazard Modeling Laboratory, director: Ahsan Kareem, at Notre Dame
 
-#include "remotejoblister.h"
+#ifndef REMOTEFILEWINDOW_H
+#define REMOTEFILEWINDOW_H
 
-#include "../ae_globals.h"
-#include "../utilFuncs/agavesetupdriver.h"
-#include "joboperator.h"
+#include <QTreeView>
+#include <QStandardItem>
 
-RemoteJobLister::RemoteJobLister(QWidget *parent) : QTableView(parent)
+#include "../AgaveExplorer/remoteFileOps/filenoderef.h"
+
+//NOTE: FILENAME MUST == 0 for these functions to work.
+//The other columns can be changed
+enum class FileColumn : int {FILENAME = 0,
+                             TYPE = 1,
+                             SIZE = 2,
+                             LAST_CHANGED = 3,
+                             FORMAT = 4,
+                             MIME_TYPE = 5,
+                             PERMISSIONS = 6};
+
+class RemoteFileItem;
+enum class RequestState;
+
+class RemoteFileTree : public QTreeView
 {
-    ae_globals::get_job_handle()->linkToJobLister(this);
-}
+    Q_OBJECT
+
+public:
+    explicit RemoteFileTree(QWidget *parent = 0);
+
+    FileNodeRef getSelectedFile();
+    void setupFileView();
+
+signals:
+    void newFileSelected(FileNodeRef newFileData);
+
+public slots:
+    void fileEntryTouched(QModelIndex itemTouched);
+    void forceSelectionRefresh();
+
+private slots:
+    void folderExpanded(QModelIndex itemOpened);
+
+private:
+    void selectRowByItem(QStandardItem *linkedItem);
+};
+
+#endif // REMOTEFILEWINDOW_H

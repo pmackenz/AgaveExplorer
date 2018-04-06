@@ -1,7 +1,7 @@
 /*********************************************************************************
 **
-** Copyright (c) 2017 The University of Notre Dame
-** Copyright (c) 2017 The Regents of the University of California
+** Copyright (c) 2018 The University of Notre Dame
+** Copyright (c) 2018 The Regents of the University of California
 **
 ** Redistribution and use in source and binary forms, with or without modification,
 ** are permitted provided that the following conditions are met:
@@ -33,52 +33,51 @@
 // Contributors:
 // Written by Peter Sempolinski, for the Natural Hazard Modeling Laboratory, director: Ahsan Kareem, at Notre Dame
 
-#ifndef JOBOPERATOR_H
-#define JOBOPERATOR_H
+#ifndef REMOTEFILEMODEL_H
+#define REMOTEFILEMODEL_H
 
 #include <QObject>
-#include <QMap>
 #include <QStandardItemModel>
-#include <QTimer>
+#include <QStandardItem>
 
-class RemoteFileWindow;
-class RemoteDataInterface;
-class RemoteJobLister;
-class RemoteJobData;
-class JobListNode;
-class RemoteDataReply;
+#include "../AgaveExplorer/remoteFileOps/filenoderef.h"
 
-enum class RequestState;
+class FileNodeRef;
+class FileOperator;
+class RemoteFileItem;
+class RemoteFileTree;
 
-class JobOperator : public QObject
+class RemoteFileModel : public QObject
 {
     Q_OBJECT
 public:
-    explicit JobOperator(QObject * parent);
-    ~JobOperator();
-    void linkToJobLister(RemoteJobLister * newLister);
-
-    QMap<QString, const RemoteJobData *> getJobsList();
-
-    void requestJobDetails(const RemoteJobData *toFetch);
-    void underlyingJobChanged();
-
-    const RemoteJobData * findJobByID(QString idToFind);
-
-signals:
-    void newJobData();
-
-public slots:
-    void demandJobDataRefresh();
+    RemoteFileModel();
+    void linkRemoteFileTreeToModel(RemoteFileTree * theTree);
 
 private slots:
-    void refreshRunningJobList(RequestState replyState, QList<RemoteJobData> *theData);
+    void newFileData(FileNodeRef newFileData);
 
 private:
-    QMap<QString, JobListNode *> jobData;
-    RemoteDataReply * currentJobReply = NULL;
+    void setRootItem(FileNodeRef rootFile);
+    void purgeItem(FileNodeRef toRemove);
+    void updateItem(FileNodeRef toUpdate, bool folderContentsLoaded = false);
+    QList<RemoteFileItem *> createItemList(FileNodeRef theFileNode);
 
-    QStandardItemModel theJobList;
+    RemoteFileItem * findTargetItem(RemoteFileItem * parentItem, FileNodeRef toFind);
+    RemoteFileItem * findParentItem(FileNodeRef toFind);
+    QString getRawColumnData(FileNodeRef fileData, int i);
+    static QList<QStandardItem *> demoteList(QList<RemoteFileItem *> inputList);
+    static QStringList separateFilePathParts(QString thePath);
+    void updateItemList(QList<RemoteFileItem *> theList, FileNodeRef newFileInfo);
+
+    QStandardItemModel theModel;
+    RemoteFileItem * userRoot = NULL;
+
+    //const int tableNumCols = 7;
+    //const QStringList shownHeaderLabelList = {"File Name","Type","Size","Last Changed",
+    //                               "Format","mimeType","Permissions"};
+    const int tableNumCols = 4;
+    const QStringList shownHeaderLabelList = {"File Name","Type","Size","Last Changed"};
 };
 
-#endif // JOBOPERATOR_H
+#endif // REMOTEFILEMODEL_H

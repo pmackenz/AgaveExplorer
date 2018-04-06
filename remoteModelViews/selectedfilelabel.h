@@ -33,52 +33,29 @@
 // Contributors:
 // Written by Peter Sempolinski, for the Natural Hazard Modeling Laboratory, director: Ahsan Kareem, at Notre Dame
 
-#ifndef JOBOPERATOR_H
-#define JOBOPERATOR_H
+#ifndef SELECTEDFILELABEL_H
+#define SELECTEDFILELABEL_H
 
-#include <QObject>
-#include <QMap>
-#include <QStandardItemModel>
-#include <QTimer>
+#include <QLabel>
+#include "../AgaveExplorer/remoteFileOps/filenoderef.h"
 
-class RemoteFileWindow;
-class RemoteDataInterface;
-class RemoteJobLister;
-class RemoteJobData;
-class JobListNode;
-class RemoteDataReply;
+class FileTreeNode;
+class RemoteFileTree;
 
-enum class RequestState;
-
-class JobOperator : public QObject
+class SelectedFileLabel : public QLabel
 {
     Q_OBJECT
+
 public:
-    explicit JobOperator(QObject * parent);
-    ~JobOperator();
-    void linkToJobLister(RemoteJobLister * newLister);
+    SelectedFileLabel(QWidget *parent=Q_NULLPTR);
 
-    QMap<QString, const RemoteJobData *> getJobsList();
-
-    void requestJobDetails(const RemoteJobData *toFetch);
-    void underlyingJobChanged();
-
-    const RemoteJobData * findJobByID(QString idToFind);
-
-signals:
-    void newJobData();
-
-public slots:
-    void demandJobDataRefresh();
+    void connectFileTreeWidget(RemoteFileTree * connectedTree);
 
 private slots:
-    void refreshRunningJobList(RequestState replyState, QList<RemoteJobData> *theData);
+    void newSelectedItem(FileNodeRef newFileData);
 
 private:
-    QMap<QString, JobListNode *> jobData;
-    RemoteDataReply * currentJobReply = NULL;
-
-    QStandardItemModel theJobList;
+    RemoteFileTree * myFileTree = NULL;
 };
 
-#endif // JOBOPERATOR_H
+#endif // SELECTEDFILELABEL_H

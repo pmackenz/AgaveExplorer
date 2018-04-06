@@ -33,52 +33,46 @@
 // Contributors:
 // Written by Peter Sempolinski, for the Natural Hazard Modeling Laboratory, director: Ahsan Kareem, at Notre Dame
 
-#ifndef JOBOPERATOR_H
-#define JOBOPERATOR_H
+#include "selectedfilelabel.h"
 
-#include <QObject>
-#include <QMap>
-#include <QStandardItemModel>
-#include <QTimer>
+#include "../remoteFileOps/filetreenode.h"
+#include "remotefiletree.h"
+#include "../AgaveClientInterface/filemetadata.h"
 
-class RemoteFileWindow;
-class RemoteDataInterface;
-class RemoteJobLister;
-class RemoteJobData;
-class JobListNode;
-class RemoteDataReply;
-
-enum class RequestState;
-
-class JobOperator : public QObject
+SelectedFileLabel::SelectedFileLabel(QWidget *parent) : QLabel(parent)
 {
-    Q_OBJECT
-public:
-    explicit JobOperator(QObject * parent);
-    ~JobOperator();
-    void linkToJobLister(RemoteJobLister * newLister);
+    newSelectedItem(FileNodeRef::nil());
+}
 
-    QMap<QString, const RemoteJobData *> getJobsList();
+void SelectedFileLabel::connectFileTreeWidget(RemoteFileTree * connectedTree)
+{
+    if (myFileTree != NULL)
+    {
+        QObject::disconnect(myFileTree, 0, this, 0);
+    }
+    myFileTree = connectedTree;
+    if (myFileTree == NULL)
+    {
+        newSelectedItem(FileNodeRef::nil());
+        return;
+    }
+    QObject::connect(myFileTree, SIGNAL(newFileSelected(FileNodeRef)),
+                     this, SLOT(newSelectedItem(FileNodeRef)));
+    newSelectedItem(myFileTree->getSelectedFile());
+}
 
-    void requestJobDetails(const RemoteJobData *toFetch);
-    void underlyingJobChanged();
-
-    const RemoteJobData * findJobByID(QString idToFind);
-
-signals:
-    void newJobData();
-
-public slots:
-    void demandJobDataRefresh();
-
-private slots:
-    void refreshRunningJobList(RequestState replyState, QList<RemoteJobData> *theData);
-
-private:
-    QMap<QString, JobListNode *> jobData;
-    RemoteDataReply * currentJobReply = NULL;
-
-    QStandardItemModel theJobList;
-};
-
-#endif // JOBOPERATOR_H
+void SelectedFileLabel::newSelectedItem(FileNodeRef newFileData)
+{
+    if (newFileData.isNil())
+    {
+        this->setText("No File Selected.");
+    }
+    else
+    {
+        QString fileString = "Filename: %1\nType: %2\nSize: %3";
+        fileString = fileString.arg(newFileData.getFileName(),
+                                    newFileData.getFileTypeString(),
+                                    QString::number(newFileData.getSize()));
+        this->setText(fileString);
+    }
+}

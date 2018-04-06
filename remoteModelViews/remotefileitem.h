@@ -1,7 +1,7 @@
 /*********************************************************************************
 **
-** Copyright (c) 2017 The University of Notre Dame
-** Copyright (c) 2017 The Regents of the University of California
+** Copyright (c) 2018 The University of Notre Dame
+** Copyright (c) 2018 The Regents of the University of California
 **
 ** Redistribution and use in source and binary forms, with or without modification,
 ** are permitted provided that the following conditions are met:
@@ -33,52 +33,31 @@
 // Contributors:
 // Written by Peter Sempolinski, for the Natural Hazard Modeling Laboratory, director: Ahsan Kareem, at Notre Dame
 
-#ifndef JOBOPERATOR_H
-#define JOBOPERATOR_H
+#ifndef REMOTEFILEITEM_H
+#define REMOTEFILEITEM_H
 
-#include <QObject>
-#include <QMap>
-#include <QStandardItemModel>
-#include <QTimer>
+#include <QStandardItem>
 
-class RemoteFileWindow;
-class RemoteDataInterface;
-class RemoteJobLister;
-class RemoteJobData;
-class JobListNode;
-class RemoteDataReply;
+#include "../remoteFileOps/filenoderef.h"
 
-enum class RequestState;
-
-class JobOperator : public QObject
+class RemoteFileItem : public QStandardItem
 {
-    Q_OBJECT
 public:
-    explicit JobOperator(QObject * parent);
-    ~JobOperator();
-    void linkToJobLister(RemoteJobLister * newLister);
+    RemoteFileItem(bool isLoading);
+    RemoteFileItem(FileNodeRef fileInfo);
+    RemoteFileItem(RemoteFileItem * rowLeader);
 
-    QMap<QString, const RemoteJobData *> getJobsList();
-
-    void requestJobDetails(const RemoteJobData *toFetch);
-    void underlyingJobChanged();
-
-    const RemoteJobData * findJobByID(QString idToFind);
-
-signals:
-    void newJobData();
-
-public slots:
-    void demandJobDataRefresh();
-
-private slots:
-    void refreshRunningJobList(RequestState replyState, QList<RemoteJobData> *theData);
+    RemoteFileItem * getRowHeader();
+    QList<RemoteFileItem*> getRowList();
+    FileNodeRef getFile();
+    bool parentOfPlaceholder();
 
 private:
-    QMap<QString, JobListNode *> jobData;
-    RemoteDataReply * currentJobReply = NULL;
+    void appendToRowList(RemoteFileItem * toAdd);
 
-    QStandardItemModel theJobList;
+    RemoteFileItem * myRowLeader = NULL;
+    QList<RemoteFileItem*> rowList;
+    FileNodeRef myFile;
 };
 
-#endif // JOBOPERATOR_H
+#endif // REMOTEFILEITEM_H

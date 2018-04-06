@@ -1,7 +1,7 @@
 /*********************************************************************************
 **
-** Copyright (c) 2017 The University of Notre Dame
-** Copyright (c) 2017 The Regents of the University of California
+** Copyright (c) 2018 The University of Notre Dame
+** Copyright (c) 2018 The Regents of the University of California
 **
 ** Redistribution and use in source and binary forms, with or without modification,
 ** are permitted provided that the following conditions are met:
@@ -33,52 +33,40 @@
 // Contributors:
 // Written by Peter Sempolinski, for the Natural Hazard Modeling Laboratory, director: Ahsan Kareem, at Notre Dame
 
-#ifndef JOBOPERATOR_H
-#define JOBOPERATOR_H
+#ifndef FILENODEREF_H
+#define FILENODEREF_H
 
-#include <QObject>
-#include <QMap>
-#include <QStandardItemModel>
-#include <QTimer>
+#include "../AgaveClientInterface/filemetadata.h"
 
-class RemoteFileWindow;
-class RemoteDataInterface;
-class RemoteJobLister;
-class RemoteJobData;
-class JobListNode;
-class RemoteDataReply;
+enum class NodeState;
 
-enum class RequestState;
-
-class JobOperator : public QObject
+class FileNodeRef : public FileMetaData
 {
-    Q_OBJECT
 public:
-    explicit JobOperator(QObject * parent);
-    ~JobOperator();
-    void linkToJobLister(RemoteJobLister * newLister);
+    FileNodeRef();
+    FileNodeRef& operator=(const FileNodeRef &toCopy);
 
-    QMap<QString, const RemoteJobData *> getJobsList();
+    void setTimestamp(qint64 newTimestamp);
+    qint64 getTimestamp() const;
 
-    void requestJobDetails(const RemoteJobData *toFetch);
-    void underlyingJobChanged();
+    bool fileNodeExtant() const;
+    NodeState getNodeState() const;
+    bool isAncestorOf(const FileNodeRef &child) const;
+    const FileNodeRef getChildWithName(QString childName) const;
+    bool fileBufferLoaded() const;
+    const QByteArray getFileBuffer() const;
+    void setFileBuffer(const QByteArray * toSet) const;
+    bool folderContentsLoaded() const;
+    FileNodeRef getParent() const;
+    QList<FileNodeRef> getChildList() const;
+    bool isRootNode() const;
 
-    const RemoteJobData * findJobByID(QString idToFind);
+    void enactFolderRefresh(bool clearData = false) const;
 
-signals:
-    void newJobData();
-
-public slots:
-    void demandJobDataRefresh();
-
-private slots:
-    void refreshRunningJobList(RequestState replyState, QList<RemoteJobData> *theData);
+    static FileNodeRef nil();
 
 private:
-    QMap<QString, JobListNode *> jobData;
-    RemoteDataReply * currentJobReply = NULL;
-
-    QStandardItemModel theJobList;
+    qint64 timestamp = 0;
 };
 
-#endif // JOBOPERATOR_H
+#endif // FILENODEREF_H
