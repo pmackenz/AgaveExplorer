@@ -78,6 +78,7 @@ void FileOperator::totalResetErrorProcedure()
 
 FileTreeNode * FileOperator::getFileNodeFromNodeRef(const FileNodeRef &thedata, bool verifyTimestamp)
 {
+    if (thedata.isNil()) return NULL;
     FileTreeNode * ret = rootFileNode->getNodeWithName(thedata.getFullPath());
     if (ret == NULL) return NULL;
 
@@ -415,7 +416,6 @@ void FileOperator::sendDownloadBuffReq(const FileNodeRef &targetFile)
         return;
     }
     trueNode->setBuffTask(theReply);
-    emit fileOpStarted();
 }
 
 bool FileOperator::performingRecursiveDownload()
