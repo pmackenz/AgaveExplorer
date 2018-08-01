@@ -15,7 +15,7 @@ bool FixForSSL::performSSLcheck()
             FixForSSL * sslWindow = new FixForSSL();
             sslWindow->show();
         #else
-            ae_globals::displayFatalPopup("SSL support was not detected on this computer.\nPlease insure that some version of SSL is installed,\nNormally, this comes with all Linux and Mac computers, so your OS install may be broken.");
+            ae_globals::displayFatalPopup("SSL support was not detected on this computer.\nPlease insure that some version of SSL is installed,\nNormally, this comes with all Linux and Mac computers, so your OS install may be broken. However, due to bugs in the most recent Ubuntu, (18.04), CWE cannot connect with SSL in that version. We are working on fixing this.");
         #endif
         return false;
     }
@@ -48,16 +48,16 @@ void FixForSSL::showLicense()
 
 void FixForSSL::getSSL()
 {
-    QNetworkReply * clientReply = NULL;
+    QNetworkReply * clientReply = nullptr;
 
-    QString activeURL = "http://indy.fulgan.com/SSL/openssl-1.0.2l-x64_86-win64.zip";
+    QString activeURL = "http://indy.fulgan.com/SSL/openssl-1.0.2k-x64_86-win64.zip";
 
     QNetworkRequest * clientRequest = new QNetworkRequest();
     clientRequest->setUrl(QUrl(activeURL));
 
     clientReply = networkManger.get(*clientRequest);
 
-    if (clientReply == NULL)
+    if (clientReply == nullptr)
     {
         ae_globals::displayFatalPopup("CWE program unable to open http conenction. Please check your internet connection and try again.");
         return;
@@ -74,7 +74,7 @@ void FixForSSL::getSSL()
 void FixForSSL::getDownloadReply()
 {
     QNetworkReply * downloadReply = (QNetworkReply *)QObject::sender();
-    QString zipFileName = "openssl-1.0.2l-x64_86-win64.zip";
+    QString zipFileName = "openssl-1.0.2k-x64_86-win64.zip";
 
     if (downloadReply->error() != QNetworkReply::NoError)
     {
