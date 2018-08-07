@@ -42,8 +42,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>707</width>
-    <height>299</height>
+    <width>691</width>
+    <height>313</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -51,21 +51,14 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="2" column="0">
-     <spacer name="horizontalSpacer_2">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>256</width>
-        <height>51</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="3" column="0">
+    <item row="4" column="0">
      <widget class="QPushButton" name="quitButton">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="focusPolicy">
        <enum>Qt::TabFocus</enum>
       </property>
@@ -80,68 +73,7 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="2" colspan="2">
-     <layout class="QFormLayout" name="formLayout_2">
-      <property name="verticalSpacing">
-       <number>0</number>
-      </property>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>DesignSafe Username:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="unameInput">
-        <property name="maxLength">
-         <number>32</number>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="passwordInput">
-        <property name="maxLength">
-         <number>32</number>
-        </property>
-        <property name="echoMode">
-         <enum>QLineEdit::Password</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>DesignSafe Password:</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="1" column="0" colspan="4">
-     <widget class="QLabel" name="instructText">
-      <property name="text">
-       <string>To login to the TACC computing resources, please supply your Design Safe username and password.</string>
-      </property>
-      <property name="wordWrap">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="2">
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>256</width>
-        <height>23</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="3" column="3">
+    <item row="4" column="3">
      <widget class="QPushButton" name="loginButton">
       <property name="sizePolicy">
        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
@@ -166,11 +98,105 @@
       </property>
      </widget>
     </item>
+    <item row="4" column="2">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>256</width>
+        <height>23</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="1" column="0" colspan="4">
+     <widget class="QLabel" name="instructText">
+      <property name="text">
+       <string>To login to the TACC computing resources, please supply your Design Safe username and password.</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0" colspan="4">
+     <widget class="FooterWidget" name="footerBox"/>
+    </item>
     <item row="0" column="0" colspan="4">
      <widget class="HeaderWidget" name="headerBox"/>
     </item>
-    <item row="4" column="0" colspan="4">
-     <widget class="FooterWidget" name="footerBox"/>
+    <item row="3" column="2" colspan="2">
+     <widget class="QFrame" name="frame">
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="passwordInput">
+         <property name="maxLength">
+          <number>32</number>
+         </property>
+         <property name="echoMode">
+          <enum>QLineEdit::Password</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>DesignSafe Password:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>DesignSafe Username:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="unameInput">
+         <property name="maxLength">
+          <number>32</number>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="../../CWE-Simulation-Tool/cwe_resources.qrc">:/icons/NHERI-CWE-Icon.icns</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>false</bool>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -179,8 +205,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>707</width>
-     <height>23</height>
+     <width>691</width>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -211,7 +237,9 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../../CWE-Simulation-Tool/cwe_resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>actionExit</sender>
