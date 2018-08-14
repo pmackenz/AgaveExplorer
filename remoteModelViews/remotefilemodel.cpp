@@ -37,10 +37,10 @@
 #include "remotefileitem.h"
 #include "remotefiletree.h"
 
-#include "../remoteFileOps/filenoderef.h"
-#include "../remoteFileOps/fileoperator.h"
-#include "../remoteFileOps/filetreenode.h"
-#include "../ae_globals.h"
+#include "remoteFileOps/filenoderef.h"
+#include "remoteFileOps/fileoperator.h"
+#include "remoteFileOps/filetreenode.h"
+#include "ae_globals.h"
 
 RemoteFileModel::RemoteFileModel() : QObject()
 {

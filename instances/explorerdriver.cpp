@@ -40,12 +40,19 @@
 #include "remoteFileOps/fileoperator.h"
 #include "remoteFileOps/joboperator.h"
 
-#include "../AgaveClientInterface/agaveInterfaces/agavethread.h"
-#include "../AgaveClientInterface/agaveInterfaces/agavetaskreply.h"
+#include "agaveInterfaces/agavethread.h"
+#include "agaveInterfaces/agavetaskreply.h"
 
-#include "../ae_globals.h"
+#include "ae_globals.h"
 
-ExplorerDriver::ExplorerDriver(QObject *parent, bool debug) : AgaveSetupDriver(parent, debug)
+ExplorerDriver::ExplorerDriver(QObject *parent, bool debug) : AgaveSetupDriver(parent, debug) {}
+
+ExplorerDriver::~ExplorerDriver()
+{
+    if (mainWindow != nullptr) delete mainWindow;
+}
+
+void ExplorerDriver::startup()
 {
     AgaveThread * tmpHandle = new AgaveThread(this);
     tmpHandle->start();
@@ -60,16 +67,10 @@ ExplorerDriver::ExplorerDriver(QObject *parent, bool debug) : AgaveSetupDriver(p
     tmpHandle->registerAgaveAppInfo("cwe-serial", "cwe-serial-0.1.0", {"stage"}, {"file_input", "directory"}, "directory");
     tmpHandle->registerAgaveAppInfo("cwe-parallel", "cwe-parallel-0.1.0", {"stage"}, {"file_input", "directory"}, "directory");
 
+    tmpHandle->setAgaveConnectionParams("https://agave.designsafe-ci.org", "SimCenter_CWE_GUI", "designsafe.storage.default");
+
     theConnectThread = tmpHandle;
-}
 
-ExplorerDriver::~ExplorerDriver()
-{
-    if (mainWindow != nullptr) delete mainWindow;
-}
-
-void ExplorerDriver::startup()
-{
     myJobHandle = new JobOperator(this);
     myFileHandle = new FileOperator(this);
     authWindow = new AuthForm(this);

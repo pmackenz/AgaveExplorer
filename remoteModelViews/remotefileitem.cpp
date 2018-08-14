@@ -35,7 +35,7 @@
 
 #include "remotefileitem.h"
 
-#include "../ae_globals.h"
+#include "ae_globals.h"
 
 RemoteFileItem::RemoteFileItem(bool isLoading) : QStandardItem()
 {

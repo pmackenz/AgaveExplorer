@@ -36,11 +36,11 @@
 #include "authform.h"
 #include "ui_authform.h"
 
-#include "../AgaveClientInterface/remotedatainterface.h"
+#include "remotedatainterface.h"
 #include "copyrightdialog.h"
 
 #include "agavesetupdriver.h"
-#include "../ae_globals.h"
+#include "ae_globals.h"
 
 AuthForm::AuthForm(AgaveSetupDriver * theDriver, QWidget *parent) :
     QMainWindow(parent),

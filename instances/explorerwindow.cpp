@@ -36,19 +36,19 @@
 #include "explorerwindow.h"
 #include "ui_explorerwindow.h"
 
-#include "../AgaveClientInterface/remotedatainterface.h"
-#include "../AgaveClientInterface/filemetadata.h"
+#include "remotedatainterface.h"
+#include "filemetadata.h"
 
 #include "remoteFileOps/filetreenode.h"
 #include "remoteFileOps/fileoperator.h"
 #include "remoteFileOps/joboperator.h"
 
-#include "../remoteModelViews/remotefilemodel.h"
+#include "remoteModelViews/remotefilemodel.h"
 
-#include "../utilFuncs/singlelinedialog.h"
+#include "utilFuncs/singlelinedialog.h"
 
 #include "explorerdriver.h"
-#include "../ae_globals.h"
+#include "ae_globals.h"
 
 ExplorerWindow::ExplorerWindow(QWidget *parent) :
     QMainWindow(parent),

@@ -35,16 +35,16 @@
 
 #include "fileoperator.h"
 
-#include "../AgaveExplorer/remoteModelViews/remotefiletree.h"
+#include "remoteModelViews/remotefiletree.h"
 #include "filetreenode.h"
 #include "easyboollock.h"
 #include "filenoderef.h"
 
-#include "../AgaveClientInterface/filemetadata.h"
-#include "../AgaveClientInterface/remotedatainterface.h"
+#include "filemetadata.h"
+#include "remotedatainterface.h"
 
-#include "../utilFuncs/agavesetupdriver.h"
-#include "../ae_globals.h"
+#include "utilFuncs/agavesetupdriver.h"
+#include "ae_globals.h"
 
 FileOperator::FileOperator(AgaveSetupDriver *parent) : QObject( qobject_cast<QObject *>(parent))
 {
@@ -91,7 +91,9 @@ FileTreeNode * FileOperator::getFileNodeFromNodeRef(const FileNodeRef &thedata, 
 void FileOperator::enactRootRefresh()
 {
     qCDebug(agaveAppLayer, "Enacting refresh of root.");
-    RemoteDataReply * theReply = ae_globals::get_connection()->remoteLS("/");
+    QString rootFolder = "/";
+    rootFolder = rootFolder.append(ae_globals::get_connection()->getUserName());
+    RemoteDataReply * theReply = ae_globals::get_connection()->remoteLS(rootFolder);
     if (theReply == nullptr)
     {
         //TODO: consider a more fatal error here

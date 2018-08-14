@@ -35,11 +35,11 @@
 
 #include "joboperator.h"
 
-#include "../ae_globals.h"
+#include "ae_globals.h"
 
-#include "../AgaveExplorer/remoteModelViews/remotejoblister.h"
-#include "../AgaveClientInterface/remotedatainterface.h"
-#include "../AgaveClientInterface/remotejobdata.h"
+#include "remoteModelViews/remotejoblister.h"
+#include "remotedatainterface.h"
+#include "remotejobdata.h"
 #include "joblistnode.h"
 
 JobOperator::JobOperator(QObject * parent) : QObject(qobject_cast<QObject *>(parent))

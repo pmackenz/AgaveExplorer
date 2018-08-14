@@ -38,6 +38,7 @@
 
 #include <QObject>
 #include <QApplication>
+#include <QNetworkAccessManager>
 
 enum class RequestState;
 

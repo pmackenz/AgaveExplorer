@@ -36,10 +36,10 @@
 #include "joblistnode.h"
 #include "joboperator.h"
 
-#include "../remoteModelViews/linkedstandarditem.h"
+#include "remoteModelViews/linkedstandarditem.h"
 
-#include "../AgaveClientInterface/remotedatainterface.h"
-#include "../ae_globals.h"
+#include "remotedatainterface.h"
+#include "ae_globals.h"
 
 JobListNode::JobListNode(RemoteJobData newData, QStandardItemModel * theModel) : QObject(ae_globals::get_job_handle())
 {

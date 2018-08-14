@@ -37,11 +37,11 @@
 
 #include "remotefileitem.h"
 #include "remotefilemodel.h"
-#include "../remoteFileOps/fileoperator.h"
-#include "../remoteFileOps/filetreenode.h"
-#include "../remoteFileOps/filenoderef.h"
-#include "../ae_globals.h"
-#include "../utilFuncs/agavesetupdriver.h"
+#include "remoteFileOps/fileoperator.h"
+#include "remoteFileOps/filetreenode.h"
+#include "remoteFileOps/filenoderef.h"
+#include "ae_globals.h"
+#include "utilFuncs/agavesetupdriver.h"
 
 RemoteFileTree::RemoteFileTree(QWidget *parent) :
     QTreeView(parent)

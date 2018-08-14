@@ -36,7 +36,7 @@
 #ifndef FILENODEREF_H
 #define FILENODEREF_H
 
-#include "../AgaveClientInterface/filemetadata.h"
+#include "filemetadata.h"
 
 enum class NodeState;
 

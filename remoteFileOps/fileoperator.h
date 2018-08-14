@@ -44,7 +44,7 @@
 #include <QFile>
 #include <QDir>
 
-#include "../AgaveExplorer/remoteFileOps/filenoderef.h"
+#include "remoteFileOps/filenoderef.h"
 
 class FileTreeNode;
 class RemoteFileTree;

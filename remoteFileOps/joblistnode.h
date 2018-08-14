@@ -44,7 +44,7 @@ class RemoteDataReply;
 class JobOperator;
 enum class RequestState;
 
-#include "../AgaveClientInterface/remotejobdata.h"
+#include "remotejobdata.h"
 
 class JobListNode : public QObject
 {

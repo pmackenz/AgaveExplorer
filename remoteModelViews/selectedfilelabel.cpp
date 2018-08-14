@@ -35,9 +35,9 @@
 
 #include "selectedfilelabel.h"
 
-#include "../remoteFileOps/filetreenode.h"
+#include "remoteFileOps/filetreenode.h"
 #include "remotefiletree.h"
-#include "../AgaveClientInterface/filemetadata.h"
+#include "filemetadata.h"
 
 SelectedFileLabel::SelectedFileLabel(QWidget *parent) : QLabel(parent)
 {

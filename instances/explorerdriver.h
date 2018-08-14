@@ -66,8 +66,6 @@ private slots:
     void loadAppList(RequestState replyState, QVariantList appList);
 
 private:
-
-
     ExplorerWindow * mainWindow = nullptr;
 };
 

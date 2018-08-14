@@ -35,7 +35,7 @@
 
 #include "filenoderef.h"
 
-#include "../ae_globals.h"
+#include "ae_globals.h"
 #include "fileoperator.h"
 #include "filetreenode.h"
 

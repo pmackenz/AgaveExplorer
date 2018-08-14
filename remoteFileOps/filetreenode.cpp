@@ -38,11 +38,11 @@
 #include "fileoperator.h"
 #include "filenoderef.h"
 
-#include "../remoteModelViews/linkedstandarditem.h"
+#include "remoteModelViews/linkedstandarditem.h"
 
-#include "../AgaveClientInterface/filemetadata.h"
-#include "../AgaveClientInterface/remotedatainterface.h"
-#include "../ae_globals.h"
+#include "filemetadata.h"
+#include "remotedatainterface.h"
+#include "ae_globals.h"
 
 FileTreeNode::FileTreeNode(FileMetaData contents, FileTreeNode * parent):QObject(qobject_cast<QObject *>(parent))
 {

@@ -36,7 +36,7 @@
 #ifndef JOBOPERATOR_H
 #define JOBOPERATOR_H
 
-#include "../AgaveClientInterface/remotejobdata.h"
+#include "remotejobdata.h"
 
 #include <QObject>
 #include <QMap>

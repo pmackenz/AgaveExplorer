@@ -35,9 +35,9 @@
 
 #include "remotejoblister.h"
 
-#include "../ae_globals.h"
-#include "../utilFuncs/agavesetupdriver.h"
-#include "../remoteFileOps/joboperator.h"
+#include "ae_globals.h"
+#include "utilFuncs/agavesetupdriver.h"
+#include "remoteFileOps/joboperator.h"
 
 RemoteJobLister::RemoteJobLister(QWidget *parent) : QTableView(parent)
 {
