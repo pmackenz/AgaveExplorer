@@ -60,7 +60,8 @@ int main(int argc, char *argv[])
         }
     }
 
-    ExplorerDriver programDriver(nullptr, debugLoggingEnabled);
+    ExplorerDriver::setDebugLogging(debugLoggingEnabled);
+    ExplorerDriver programDriver(nullptr);
     programDriver.loadStyleFiles();
     programDriver.startup();
 

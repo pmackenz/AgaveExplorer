@@ -42,8 +42,8 @@
 #include <QMenu>
 #include <QJsonDocument>
 
-#include "remoteFileOps/filenoderef.h"
-#include "remoteModelViews/remotefilemodel.h"
+#include "remoteFiles/filenoderef.h"
+#include "remoteFiles/remotefilemodel.h"
 
 class RemoteFileTree;
 class FileMetaData;

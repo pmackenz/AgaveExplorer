@@ -37,15 +37,15 @@
 
 #include "explorerwindow.h"
 #include "utilFuncs/authform.h"
-#include "remoteFileOps/fileoperator.h"
-#include "remoteFileOps/joboperator.h"
+#include "remoteFiles/fileoperator.h"
+#include "remoteJobs/joboperator.h"
 
-#include "agaveInterfaces/agavethread.h"
 #include "agaveInterfaces/agavetaskreply.h"
+#include "agaveInterfaces/agavehandler.h"
 
 #include "ae_globals.h"
 
-ExplorerDriver::ExplorerDriver(QObject *parent, bool debug) : AgaveSetupDriver(parent, debug) {}
+ExplorerDriver::ExplorerDriver(QObject *parent) : AgaveSetupDriver(parent) {}
 
 ExplorerDriver::~ExplorerDriver()
 {
@@ -54,43 +54,26 @@ ExplorerDriver::~ExplorerDriver()
 
 void ExplorerDriver::startup()
 {
-    AgaveThread * tmpHandle = new AgaveThread(this);
-    tmpHandle->start();
-    while (!tmpHandle->interfaceReady())
-    {
-        QThread::usleep(10);
-    }
+    createAndStartAgaveThread();
 
-    tmpHandle->registerAgaveAppInfo("compress", "compress-0.1u1",{"directory", "compression_type"},{},"directory");
-    tmpHandle->registerAgaveAppInfo("extract", "extract-0.1u1",{"inputFile"},{},"inputFile");
+    myDataInterface->registerAgaveAppInfo("compress", "compress-0.1u1",{"directory", "compression_type"},{},"directory");
+    myDataInterface->registerAgaveAppInfo("extract", "extract-0.1u1",{"inputFile"},{},"inputFile");
 
-    tmpHandle->registerAgaveAppInfo("cwe-serial", "cwe-serial-0.1.0", {"stage"}, {"file_input", "directory"}, "directory");
-    tmpHandle->registerAgaveAppInfo("cwe-parallel", "cwe-parallel-0.1.0", {"stage"}, {"file_input", "directory"}, "directory");
+    myDataInterface->registerAgaveAppInfo("cwe-serial", "cwe-serial-0.2.0", {"stage"}, {"file_input", "directory"}, "directory");
+    myDataInterface->registerAgaveAppInfo("cwe-parallel", "cwe-parallel-0.2.0", {"stage"}, {"file_input", "directory"}, "directory");
 
-    tmpHandle->setAgaveConnectionParams("https://agave.designsafe-ci.org", "SimCenter_CWE_GUI", "designsafe.storage.default");
-
-    theConnectThread = tmpHandle;
-
-    myJobHandle = new JobOperator(this);
-    myFileHandle = new FileOperator(this);
-    authWindow = new AuthForm(this);
-
+    authWindow = new AuthForm();
     authWindow->show();
     QObject::connect(authWindow->windowHandle(),SIGNAL(visibleChanged(bool)),this, SLOT(subWindowHidden(bool)));
-
-    mainWindow = new ExplorerWindow();
 }
 
 void ExplorerDriver::closeAuthScreen()
 {
-    if (mainWindow == nullptr)
-    {
-        ae_globals::displayFatalPopup("Fatal Error in window system: No Main Window");
-        return;
-    }
+    mainWindow = new ExplorerWindow();
 
     myJobHandle->demandJobDataRefresh();
-    myFileHandle->resetFileData();
+    myFileHandle->resetFileData(myDataInterface, myDataInterface->getUserName());
+
     mainWindow->startAndShow();
 
     //The dynamics of this may be different in windows. TODO: Find a more cross-platform solution
@@ -104,7 +87,7 @@ void ExplorerDriver::closeAuthScreen()
         authWindow = nullptr;
     }
 
-    AgaveTaskReply * agaveList = (qobject_cast<AgaveThread *>(theConnectThread))->getAgaveAppList();
+    AgaveTaskReply * agaveList = myDataInterface->getAgaveAppList();
 
     QObject::connect(agaveList, SIGNAL(haveAgaveAppList(RequestState,QVariantList)), this, SLOT(loadAppList(RequestState,QVariantList)));
 }

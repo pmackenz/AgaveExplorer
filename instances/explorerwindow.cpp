@@ -39,11 +39,11 @@
 #include "remotedatainterface.h"
 #include "filemetadata.h"
 
-#include "remoteFileOps/filetreenode.h"
-#include "remoteFileOps/fileoperator.h"
-#include "remoteFileOps/joboperator.h"
+#include "remoteFiles/filetreenode.h"
+#include "remoteFiles/fileoperator.h"
+#include "remoteFiles/remotefilemodel.h"
 
-#include "remoteModelViews/remotefilemodel.h"
+#include "remoteJobs/joboperator.h"
 
 #include "utilFuncs/singlelinedialog.h"
 
@@ -65,6 +65,8 @@ ExplorerWindow::ExplorerWindow(QWidget *parent) :
     }
     ui->agaveAppList->setModel(&taskListModel);
 
+    QObject::connect(ae_globals::get_file_handle(), SIGNAL(fileSystemChange(FileNodeRef)),
+                     &theFileModel, SLOT(newFileData(FileNodeRef)), Qt::QueuedConnection);
     ui->remoteFileView->setModelLink(&theFileModel);
 
     ui->selectedFileLabel->connectFileTreeWidget(ui->remoteFileView);

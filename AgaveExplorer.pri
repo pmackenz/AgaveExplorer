@@ -1,50 +1,34 @@
-include(../AgaveClientInterface/AgaveClientInterface.pri)
 
-INCLUDEPATH += "../AgaveExplorer/"
+NEEDED_REPO=AgaveClientInterface
+
+NEEDED_PRI=$$PWD/../$$NEEDED_REPO/"$$NEEDED_REPO".pri
+!exists( $$NEEDED_PRI ) {
+    message("Needed Git repo $$NEEDED_REPO not found. This project requires $$NEEDED_REPO from https://github.com/NHERI-SimCenter.")
+}
+
+include($$NEEDED_PRI)
+
+INCLUDEPATH += "$$PWD/"
 
 SOURCES += \
-    $$PWD/remoteFileOps/easyboollock.cpp \
-    $$PWD/remoteFileOps/fileoperator.cpp \
-    $$PWD/remoteFileOps/filetreenode.cpp \
-    $$PWD/remoteFileOps/joboperator.cpp \
     $$PWD/utilFuncs/agavesetupdriver.cpp \
     $$PWD/utilFuncs/authform.cpp \
     $$PWD/utilFuncs/copyrightdialog.cpp \
     $$PWD/utilFuncs/singlelinedialog.cpp \
-    $$PWD/remoteFileOps/joblistnode.cpp \
-    $$PWD/ae_globals.cpp \
-    $$PWD/remoteFileOps/filenoderef.cpp \
-    $$PWD/remoteModelViews/linkedstandarditem.cpp \
-    $$PWD/remoteModelViews/remotefilemodel.cpp \
-    $$PWD/remoteModelViews/remotefiletree.cpp \
-    $$PWD/remoteModelViews/remotejoblister.cpp \
-    $$PWD/remoteModelViews/selectedfilelabel.cpp \
-    $$PWD/remoteModelViews/remotefileitem.cpp \
     $$PWD/utilFuncs/fixforssl.cpp \
-    $$PWD/SimCenterCommon/FooterWidget.cpp \
-    $$PWD/SimCenterCommon/HeaderWidget.cpp
+    $$PWD/ae_globals.cpp \   
+    $$PWD/commonUI/FooterWidget.cpp \
+    $$PWD/commonUI/HeaderWidget.cpp
 
 HEADERS += \
-    $$PWD/remoteFileOps/easyboollock.h \
-    $$PWD/remoteFileOps/fileoperator.h \
-    $$PWD/remoteFileOps/filetreenode.h \
-    $$PWD/remoteFileOps/joboperator.h \
     $$PWD/utilFuncs/agavesetupdriver.h \
     $$PWD/utilFuncs/authform.h \
     $$PWD/utilFuncs/copyrightdialog.h \
     $$PWD/utilFuncs/singlelinedialog.h \
-    $$PWD/remoteFileOps/joblistnode.h \
-    $$PWD/ae_globals.h \
-    $$PWD/remoteFileOps/filenoderef.h \
-    $$PWD/remoteModelViews/linkedstandarditem.h \
-    $$PWD/remoteModelViews/remotefilemodel.h \
-    $$PWD/remoteModelViews/remotefiletree.h \
-    $$PWD/remoteModelViews/remotejoblister.h \
-    $$PWD/remoteModelViews/selectedfilelabel.h \
-    $$PWD/remoteModelViews/remotefileitem.h \
     $$PWD/utilFuncs/fixforssl.h \
-    $$PWD/SimCenterCommon/FooterWidget.h \
-    $$PWD/SimCenterCommon/HeaderWidget.h
+    $$PWD/ae_globals.h \
+    $$PWD/commonUI/FooterWidget.h \
+    $$PWD/commonUI/HeaderWidget.h
 
 FORMS += \
     $$PWD/utilFuncs/authform.ui \
@@ -57,4 +41,4 @@ FORMS += \
 }
 
 RESOURCES += \
-    $$PWD/SimCenterCommon/commonResources.qrc \
+    $$PWD/commonUI/commonResources.qrc \
