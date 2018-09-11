@@ -101,7 +101,6 @@ private:
     Ui::ExplorerWindow *ui;
 
     FileNodeRef targetNode;
-    RemoteFileModel theFileModel;
 
     QStandardItemModel taskListModel;
     QString selectedAgaveApp;
