@@ -104,6 +104,7 @@ void AgaveSetupDriver::setDebugLogging(bool loggingEnabled)
         enabledDebugs.append("Agave App Layer");
         enabledDebugs.append("File Manager");
         enabledDebugs.append("default");
+        enabledDebugs.append("Job Manager");
     }
     QLoggingCategory::installFilter(debugCategoryFilter);
 }
