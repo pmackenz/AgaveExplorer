@@ -33,10 +33,5 @@ FORMS += \
     $$PWD/utilFuncs/copyrightdialog.ui \
     $$PWD/utilFuncs/singlelinedialog.ui
 
-win32 {
-FORMS += \
-    $$PWD/utilFuncs/fixforssl.ui
-}
-
 RESOURCES += \
     $$PWD/commonUI/commonResources.qrc \
