@@ -51,12 +51,11 @@ class ExplorerDriver : public AgaveSetupDriver
     Q_OBJECT
 
 public:
-    explicit ExplorerDriver(QObject *parent = nullptr);
+    explicit ExplorerDriver(int argc, char *argv[], QObject *parent = nullptr);
     ~ExplorerDriver();
 
     virtual void startup();
     virtual void closeAuthScreen();
-    virtual void startOffline();
 
     virtual void loadStyleFiles();
 
