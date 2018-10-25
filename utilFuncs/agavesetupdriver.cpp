@@ -152,7 +152,6 @@ bool AgaveSetupDriver::sslCheckOkay()
     #else
         ae_globals::displayFatalPopup("SSL support was not detected on this computer.\nPlease ensure that some version of SSL is installed,\nNormally, this comes with all Linux and Mac computers, so your OS install may be broken. However, due to bugs in the most recent Ubuntu, (18.04), CWE might not connect with SSL in that version.");
     #endif
-    return false;
 }
 
 RemoteDataInterface * AgaveSetupDriver::getDataConnection()
